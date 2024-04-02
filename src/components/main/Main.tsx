@@ -1,20 +1,11 @@
 import React from 'react'
-import { IMovie, IWatchedMovie } from '../../types'
-import ListBox from './ListBox'
-import WatchedBox from './WatchedBox'
 
 interface IMain {
-	movies: IMovie[]
-	watched: IWatchedMovie[]
+	children: React.ReactNode
 }
 
-const Main: React.FC<IMain> = ({ movies, watched }) => {
-	return (
-		<main className='main'>
-			<ListBox movies={movies} />
-			<WatchedBox watched={watched} />
-		</main>
-	)
+const Main: React.FC<IMain> = ({ children }) => {
+	return <main className='main'>{children}</main>
 }
 
 export default Main

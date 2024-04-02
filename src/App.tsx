@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import { IMovie, IWatchedMovie } from './types'
-import { Main, Nav } from './components'
+import {
+	Logo,
+	Main,
+	MovieList,
+	Nav,
+	Results,
+	Search,
+	WatchedSummary,
+	WatchedList,
+	Box,
+} from './components'
 
 const tempMovieData: IMovie[] = [
 	{
@@ -55,8 +65,20 @@ export default function App() {
 
 	return (
 		<>
-			<Nav movies={movies} />
-			<Main movies={movies} watched={watched} />
+			<Nav>
+				<Logo />
+				<Search />
+				<Results movies={movies} />
+			</Nav>
+			<Main>
+				<Box>
+					<MovieList movies={movies} />
+				</Box>
+				<Box>
+					<WatchedSummary watched={watched} />
+					<WatchedList watched={watched} />
+				</Box>
+			</Main>
 		</>
 	)
 }

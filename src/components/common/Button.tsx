@@ -1,14 +1,14 @@
 import React from 'react'
 
 interface IButton {
-	isOpen: boolean
+	children: React.ReactNode
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Button: React.FC<IButton> = ({ isOpen, setIsOpen }) => {
+const Button: React.FC<IButton> = ({ children, setIsOpen }) => {
 	return (
 		<button className='btn-toggle' onClick={() => setIsOpen(open => !open)}>
-			{isOpen ? '–' : '+'}
+			{children}
 		</button>
 	)
 }

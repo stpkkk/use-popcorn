@@ -1,11 +1,11 @@
 import React from 'react'
 import { IMovie } from '../../types'
 
-interface IMovieProps {
+interface IMovieItemProps {
 	movie: IMovie
 }
 
-const Movie: React.FC<IMovieProps> = ({ movie }) => {
+const MovieItem: React.FC<IMovieItemProps> = ({ movie }) => {
 	return (
 		<li>
 			<img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -20,4 +20,4 @@ const Movie: React.FC<IMovieProps> = ({ movie }) => {
 	)
 }
 
-export default Movie
+export default MovieItem

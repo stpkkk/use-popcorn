@@ -2,6 +2,6 @@ import WatchedSummary from './WatchedSummary'
 import MovieList from './MovieList'
 import Main from './Main'
 import WatchedList from './WatchedList'
-import Box from './Box'
+import MovieItem from './MovieItem'
 
-export { WatchedSummary, WatchedList, Main, MovieList, Box }
+export { WatchedSummary, WatchedList, MovieItem, Main, MovieList }

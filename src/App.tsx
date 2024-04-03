@@ -10,6 +10,7 @@ import {
 	WatchedSummary,
 	WatchedList,
 	Box,
+	StarRating,
 } from './components'
 
 const tempMovieData: IMovie[] = [
@@ -75,8 +76,9 @@ export default function App() {
 					<MovieList movies={movies} />
 				</Box>
 				<Box>
-					<WatchedSummary watched={watched} />
-					<WatchedList watched={watched} />
+					{/* <WatchedSummary watched={watched} />
+					<WatchedList watched={watched} /> */}
+					<StarRating maxRating={10} />
 				</Box>
 			</Main>
 		</>

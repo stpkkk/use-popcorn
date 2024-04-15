@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { IMovie, IWatchedMovie } from './types'
 import {
 	Logo,
@@ -60,18 +60,10 @@ const tempWatchedData: IWatchedMovie[] = [
 	},
 ]
 
-const KEY = 'f52c219f'
-
 export default function App() {
 	const [movies, setMovies] = useState(tempMovieData)
 	const [watched, setWatched] = useState(tempWatchedData)
 	const [movieRating, setMovieRating] = useState(0)
-
-	useEffect(() => {
-		fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=matrix`)
-			.then(res => res.json())
-			.then(data => setMovies(data.Search))
-	}, [])
 
 	return (
 		<>
@@ -85,15 +77,15 @@ export default function App() {
 					<MovieList movies={movies} />
 				</Box>
 				<Box>
-					<WatchedSummary watched={watched} />
-					<WatchedList watched={watched} />
-					{/* <StarRating
+					{/* <WatchedSummary watched={watched} />
+					<WatchedList watched={watched} /> */}
+					<StarRating
 						maxRating={10}
 						color='#fcc419'
 						size={36}
 						defaultRating={8}
 						onSetRating={setMovieRating}
-					/> */}
+					/>
 					<p>This movie was rated {movieRating}</p>
 				</Box>
 			</Main>

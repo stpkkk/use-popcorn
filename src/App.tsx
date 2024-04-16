@@ -11,6 +11,7 @@ import {
 	WatchedList,
 	Box,
 	StarRating,
+	Loader,
 } from './components'
 
 const tempMovieData: IMovie[] = [
@@ -63,14 +64,22 @@ const tempWatchedData: IWatchedMovie[] = [
 const KEY = 'f52c219f'
 
 export default function App() {
-	const [movies, setMovies] = useState(tempMovieData)
+	const [movies, setMovies] = useState([])
 	const [watched, setWatched] = useState(tempWatchedData)
 	const [movieRating, setMovieRating] = useState(0)
+	const [isLoading, setIsLoading] = useState(false)
+	const query = 'matrix'
+
+	async function fetchMovies() {
+		setIsLoading(true)
+		const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`)
+		const data = await res.json()
+		setMovies(data.Search)
+		setIsLoading(false)
+	}
 
 	useEffect(() => {
-		fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=matrix`)
-			.then(res => res.json())
-			.then(data => setMovies(data.Search))
+		fetchMovies()
 	}, [])
 
 	return (
@@ -82,18 +91,18 @@ export default function App() {
 			</Nav>
 			<Main>
 				<Box>
-					<MovieList movies={movies} />
+					<MovieList movies={movies} isLoading={isLoading} />
 				</Box>
 				<Box>
 					<WatchedSummary watched={watched} />
 					<WatchedList watched={watched} />
 					{/* <StarRating
-						maxRating={10}
-						color='#fcc419'
-						size={36}
-						defaultRating={8}
-						onSetRating={setMovieRating}
-					/> */}
+            maxRating={10}
+            color='#fcc419'
+            size={36}
+            defaultRating={8}
+            onSetRating={setMovieRating}
+          /> */}
 					<p>This movie was rated {movieRating}</p>
 				</Box>
 			</Main>

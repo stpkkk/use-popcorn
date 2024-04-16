@@ -74,7 +74,7 @@ export default function App() {
 			</Nav>
 			<Main>
 				<Box>
-					<MovieList movies={movies} />
+					<MovieList movies={movies} isLoading={false} />
 				</Box>
 				<Box>
 					{/* <WatchedSummary watched={watched} />

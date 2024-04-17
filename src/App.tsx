@@ -12,6 +12,7 @@ import {
 	Box,
 	StarRating,
 	Loader,
+	ErrorMessage,
 } from './components'
 
 const tempMovieData: IMovie[] = [
@@ -68,14 +69,31 @@ export default function App() {
 	const [watched, setWatched] = useState(tempWatchedData)
 	const [movieRating, setMovieRating] = useState(0)
 	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState('')
 	const query = 'matrix'
 
 	async function fetchMovies() {
-		setIsLoading(true)
-		const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`)
-		const data = await res.json()
-		setMovies(data.Search)
-		setIsLoading(false)
+		try {
+			setIsLoading(true)
+			const res = await fetch(
+				`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+			)
+
+			if (!res.ok)
+				throw new Error(
+					`Something went wrong with  fetching movies! 💩 Error: ${res.status}`
+				)
+
+			const data = await res.json()
+			if (data.Response === 'False') throw new Error('No movies found')
+
+			setMovies(data.Search)
+		} catch (error: any) {
+			setError(error.message)
+			console.log(error)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	useEffect(() => {
@@ -91,7 +109,9 @@ export default function App() {
 			</Nav>
 			<Main>
 				<Box>
-					<MovieList movies={movies} isLoading={isLoading} />
+					{isLoading && <Loader />}
+					{!isLoading && !error && <MovieList movies={movies} />}
+					{error && <ErrorMessage message={error} />}
 				</Box>
 				<Box>
 					<WatchedSummary watched={watched} />

@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Search: React.FC = () => {
-	const [query, setQuery] = useState('')
+interface ISearch {
+	query: string
+	setQuery: React.Dispatch<React.SetStateAction<string>>
+}
 
+const Search: React.FC<ISearch> = ({ query, setQuery }) => {
 	return (
 		<input
 			className='search'

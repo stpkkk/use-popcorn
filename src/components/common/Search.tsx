@@ -1,11 +1,10 @@
 import React from 'react'
 
 interface ISearch {
-	query: string
 	setQuery: React.Dispatch<React.SetStateAction<string>>
+	query: string
 }
-
-const Search: React.FC<ISearch> = ({ query, setQuery }) => {
+const Search: React.FC<ISearch> = ({ setQuery, query }) => {
 	return (
 		<input
 			className='search'

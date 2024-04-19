@@ -10,3 +10,16 @@ export interface IWatchedMovie extends IMovie {
 	imdbRating: number
 	userRating: number
 }
+
+export interface IMovieDetails {
+	Title?: string
+	Year?: string
+	Poster?: string
+	Runtime?: string
+	Plot?: string
+	Released?: string
+	Actors?: string
+	Director?: string
+	Genre?: string
+	imdbRating?: string
+}

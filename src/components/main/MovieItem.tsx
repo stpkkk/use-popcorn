@@ -3,11 +3,12 @@ import { IMovie } from '../../types'
 
 interface IMovieItemProps {
 	movie: IMovie
+	onSelectMovie: (id: string) => void
 }
 
-const MovieItem: React.FC<IMovieItemProps> = ({ movie }) => {
+const MovieItem: React.FC<IMovieItemProps> = ({ movie, onSelectMovie }) => {
 	return (
-		<li>
+		<li onClick={() => onSelectMovie(movie.imdbID)}>
 			<img src={movie.Poster} alt={`${movie.Title} poster`} />
 			<h3>{movie.Title}</h3>
 			<div>

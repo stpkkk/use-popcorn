@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { IMovie, IWatchedMovie } from './types'
+import { IWatchedMovie } from './types'
 import {
 	Logo,
 	Main,
@@ -10,9 +10,9 @@ import {
 	WatchedSummary,
 	WatchedList,
 	Box,
-	StarRating,
 	Loader,
 	ErrorMessage,
+	MovieDetails,
 } from './components'
 
 const tempWatchedData: IWatchedMovie[] = [
@@ -46,7 +46,8 @@ export default function App() {
 	const [movieRating, setMovieRating] = useState(0)
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
-	const [query, setQuery] = useState('matrix')
+	const [query, setQuery] = useState('')
+	const [selectedId, setSelectedId] = useState<string | null>(null)
 
 	const fetchMovies = useCallback(async () => {
 		try {
@@ -74,6 +75,14 @@ export default function App() {
 		}
 	}, [query])
 
+	const handleSelectMovie = (id: string) => {
+		setSelectedId(selectedId => (id === selectedId ? null : id))
+	}
+
+	const handleCloseMovie = () => {
+		setSelectedId(null)
+	}
+
 	useEffect(() => {
 		if (query.length < 3) {
 			setMovies([])
@@ -93,20 +102,20 @@ export default function App() {
 			<Main>
 				<Box>
 					{isLoading && <Loader />}
-					{!isLoading && !error && <MovieList movies={movies} />}
+					{!isLoading && !error && (
+						<MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+					)}
 					{error && <ErrorMessage message={error} />}
 				</Box>
 				<Box>
-					<WatchedSummary watched={watched} />
-					<WatchedList watched={watched} />
-					{/* <StarRating
-            maxRating={10}
-            color='#fcc419'
-            size={36}
-            defaultRating={8}
-            onSetRating={setMovieRating}
-          /> */}
-					<p>This movie was rated {movieRating}</p>
+					{selectedId ? (
+						<MovieDetails id={selectedId} onCloseMovie={handleCloseMovie} />
+					) : (
+						<>
+							<WatchedSummary watched={watched} />
+							<WatchedList watched={watched} />
+						</>
+					)}
 				</Box>
 			</Main>
 		</>

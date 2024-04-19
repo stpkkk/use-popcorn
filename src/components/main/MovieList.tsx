@@ -4,13 +4,18 @@ import MovieItem from './MovieItem'
 
 interface IMovieList {
 	movies: IMovie[]
+	onSelectMovie: (id: string) => void
 }
 
-const MovieList: React.FC<IMovieList> = ({ movies }) => {
+const MovieList: React.FC<IMovieList> = ({ movies, onSelectMovie }) => {
 	return (
-		<ul className='list'>
+		<ul className='list list-movies'>
 			{movies.map(movie => (
-				<MovieItem movie={movie} key={movie.imdbID} />
+				<MovieItem
+					movie={movie}
+					onSelectMovie={onSelectMovie}
+					key={movie.imdbID}
+				/>
 			))}
 		</ul>
 	)

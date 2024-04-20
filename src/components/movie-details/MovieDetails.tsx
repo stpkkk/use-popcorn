@@ -1,5 +1,7 @@
 import { FC, useCallback, useEffect, useState } from 'react'
 import { IMovieDetails } from '../../types'
+import { StarRating } from '../star-rating'
+import { Loader } from '../common'
 
 interface MovieDetailsProps {
 	id: string
@@ -15,7 +17,6 @@ const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
 
 	const {
 		Title: title,
-		Year: year,
 		Poster: poster,
 		Runtime: runtime,
 		Plot: plot,
@@ -25,8 +26,6 @@ const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
 		Director: director,
 		Genre: genre,
 	} = movie
-
-	console.log(movie)
 
 	const getMovieDetails = useCallback(async (id: string) => {
 		try {
@@ -55,17 +54,41 @@ const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
 		getMovieDetails(id)
 	}, [getMovieDetails, id])
 
-	console.log(movie)
-
 	return (
 		<div className='details'>
-			<header>
-				<button className='btn-back' onClick={onCloseMovie} type='button'>
-					&larr;
-				</button>
-				<img src={poster} alt={title} />
-				<div className='details-overview'>{<h2>{title}</h2>}</div>
-			</header>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<>
+					<header>
+						<button className='btn-back' onClick={onCloseMovie} type='button'>
+							&larr;
+						</button>
+						<img src={poster} alt={`Poster of ${movie} movie`} />
+						<div className='details-overview'>
+							<h2>{title}</h2>
+							<p>
+								{released} &bull; {runtime}
+							</p>
+							<p>{genre}</p>
+							<p>
+								<span>⭐</span>
+								{imdbRating} IMDb rating
+							</p>
+						</div>
+					</header>
+					<section>
+						<div className='rating'>
+							<StarRating maxRating={10} size={48} />
+						</div>
+						<p>
+							<em>{plot}</em>
+						</p>
+						<p>Starring {actors}</p>
+						<p>Directed by {director}</p>
+					</section>
+				</>
+			)}
 		</div>
 	)
 }

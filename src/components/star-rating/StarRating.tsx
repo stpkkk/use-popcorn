@@ -39,7 +39,7 @@ const StarRating: React.FC<IStarRating> = ({
 		lineHeight: '1',
 		margin: '0',
 		color,
-		size: `${size / 1.5}px`,
+		size: `${size / 1.5}`,
 	}
 
 	StarRating.propTypes = {

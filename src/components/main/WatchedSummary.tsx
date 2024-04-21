@@ -2,7 +2,7 @@ import React from 'react'
 import { IWatchedMovie } from '../../types'
 
 interface IWatchedSummary {
-	watched: IWatchedMovie[]
+	watched: any[]
 }
 
 const WatchedSummary: React.FC<IWatchedSummary> = ({ watched }) => {
@@ -23,7 +23,7 @@ const WatchedSummary: React.FC<IWatchedSummary> = ({ watched }) => {
 				</p>
 				<p>
 					<span>⭐️</span>
-					<span>{avgImdbRating}</span>
+					<span>{avgImdbRating?.toFixed(2)}</span>
 				</p>
 				<p>
 					<span>🌟</span>

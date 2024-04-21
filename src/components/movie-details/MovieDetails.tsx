@@ -1,22 +1,34 @@
 import { FC, useCallback, useEffect, useState } from 'react'
-import { IMovieDetails } from '../../types'
+import { IMovieDetails, IWatchedMovie } from '../../types'
 import { StarRating } from '../star-rating'
 import { Loader } from '../common'
 
 interface MovieDetailsProps {
 	id: string
+	watched: IWatchedMovie[]
 	onCloseMovie: () => void
+	onAddWatched: (movie: IWatchedMovie) => void
 }
 
 const KEY = 'f52c219f'
 
-const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
+const MovieDetails: FC<MovieDetailsProps> = ({
+	id,
+	onCloseMovie,
+	onAddWatched,
+	watched,
+}) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
-	const [movie, setMovie] = useState<IMovieDetails>({})
+	const [movie, setMovie] = useState<IWatchedMovie>({})
+	const [userRating, setUserRating] = useState(0)
+
+	const isWatched = watched.map(m => m.imdbID).includes(id)
+	const watchedUserRating = watched.find(m => m.imdbID === id)?.userRating
 
 	const {
 		Title: title,
+		Year: year,
 		Poster: poster,
 		Runtime: runtime,
 		Plot: plot,
@@ -26,6 +38,22 @@ const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
 		Director: director,
 		Genre: genre,
 	} = movie
+
+	const handleAdd = () => {
+		const newWatchedMovie = {
+			imdbID: id,
+			imdbRating: Number(imdbRating),
+			title,
+			year,
+			poster,
+			runtime: Number(runtime?.split(' ').at(0)),
+			userRating,
+		}
+
+		onCloseMovie()
+
+		if (!isWatched) onAddWatched(newWatchedMovie)
+	}
 
 	const getMovieDetails = useCallback(async (id: string) => {
 		try {
@@ -79,7 +107,28 @@ const MovieDetails: FC<MovieDetailsProps> = ({ id, onCloseMovie }) => {
 					</header>
 					<section>
 						<div className='rating'>
-							<StarRating maxRating={10} size={48} />
+							{!isWatched ? (
+								<>
+									<StarRating
+										maxRating={10}
+										size={48}
+										onSetRating={setUserRating}
+									/>
+									{!!userRating && (
+										<button
+											onClick={handleAdd}
+											className='btn-add'
+											type='button'
+										>
+											+ Add to list
+										</button>
+									)}
+								</>
+							) : (
+								<p>
+									You rated this movie {watchedUserRating} <span>⭐</span>
+								</p>
+							)}
 						</div>
 						<p>
 							<em>{plot}</em>

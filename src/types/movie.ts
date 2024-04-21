@@ -5,12 +5,6 @@ export interface IMovie {
 	Poster: string
 }
 
-export interface IWatchedMovie extends IMovie {
-	runtime: number
-	imdbRating: number
-	userRating: number
-}
-
 export interface IMovieDetails {
 	Title?: string
 	Year?: string
@@ -21,5 +15,13 @@ export interface IMovieDetails {
 	Actors?: string
 	Director?: string
 	Genre?: string
-	imdbRating?: string
+	imdbRating?: number
+}
+
+export interface IWatchedMovie extends IMovieDetails {
+	poster?: string
+	title?: string
+	runtime?: number
+	userRating?: number
+	imdbID?: string
 }

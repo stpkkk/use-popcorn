@@ -2,12 +2,12 @@ import React from 'react'
 import { IWatchedMovie } from '../../types'
 
 interface IWatchedSummary {
-	watched: any[]
+	watched: IWatchedMovie[]
 }
 
 const WatchedSummary: React.FC<IWatchedSummary> = ({ watched }) => {
-	const average = (arr: number[]) =>
-		arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0)
+	const average = (arr: (number | undefined)[]) =>
+		arr.reduce((acc, cur, i, arr) => acc || 0 + (cur || 0) / arr.length, 0)
 
 	const avgImdbRating = average(watched.map(movie => movie.imdbRating))
 	const avgUserRating = average(watched.map(movie => movie.userRating))

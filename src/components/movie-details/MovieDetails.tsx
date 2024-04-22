@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from 'react'
-import { IMovieDetails, IWatchedMovie } from '../../types'
+import { IWatchedMovie } from '../../types'
 import { StarRating } from '../star-rating'
-import { Loader } from '../common'
+import { ErrorMessage, Loader } from '../common'
 
 interface MovieDetailsProps {
 	id: string
@@ -84,9 +84,9 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 
 	return (
 		<div className='details'>
-			{isLoading ? (
-				<Loader />
-			) : (
+			{isLoading && <Loader />}
+			{error && <ErrorMessage message={error} />}
+			{!isLoading && !error && (
 				<>
 					<header>
 						<button className='btn-back' onClick={onCloseMovie} type='button'>

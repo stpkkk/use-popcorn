@@ -82,6 +82,17 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 		getMovieDetails(id)
 	}, [getMovieDetails, id])
 
+	useEffect(() => {
+		if (title) {
+			document.title = title
+			return () => {
+				document.title = 'usePopcorn'
+			}
+		} else {
+			return
+		}
+	}, [title])
+
 	return (
 		<div className='details'>
 			{isLoading && <Loader />}

@@ -73,6 +73,7 @@ export default function App() {
 			setError('')
 		}
 
+		handleCloseMovie()
 		fetchMovies()
 	}, [fetchMovies, query.length])
 

@@ -79,6 +79,18 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 	}, [])
 
 	useEffect(() => {
+		const callback = (e: { code: string }) => {
+			if (e.code === 'Escape') onCloseMovie()
+		}
+
+		document.addEventListener('keydown', callback)
+
+		return () => {
+			document.removeEventListener('keydown', callback)
+		}
+	}, [onCloseMovie])
+
+	useEffect(() => {
 		getMovieDetails(id)
 	}, [getMovieDetails, id])
 

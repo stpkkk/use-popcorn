@@ -19,7 +19,10 @@ const KEY = 'f52c219f'
 
 export default function App() {
 	const [movies, setMovies] = useState([])
-	const [watched, setWatched] = useState<IWatchedMovie[] | []>([])
+	const [watched, setWatched] = useState<IWatchedMovie[] | []>(() => {
+		const storedWatched = localStorage.getItem('watched')
+		if (storedWatched) return JSON.parse(storedWatched)
+	})
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
 	const [query, setQuery] = useState('')
@@ -76,6 +79,17 @@ export default function App() {
 		handleCloseMovie()
 		fetchMovies()
 	}, [fetchMovies, query.length])
+
+	// useEffect(() => {
+	// 	const storedWatched = localStorage.getItem('watched')
+	// 	if (storedWatched) {
+	// 		setWatched(JSON.parse(storedWatched))
+	// 	}
+	// }, [])
+
+	useEffect(() => {
+		localStorage.setItem('watched', JSON.stringify(watched))
+	}, [watched])
 
 	return (
 		<>

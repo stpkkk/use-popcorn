@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { IWatchedMovie } from '../../types'
 import { StarRating } from '../star-rating'
 import { ErrorMessage, Loader } from '../common'
@@ -22,6 +22,8 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 	const [error, setError] = useState('')
 	const [movie, setMovie] = useState<IWatchedMovie>({})
 	const [userRating, setUserRating] = useState(0)
+
+	const countRef = useRef(0)
 
 	const isWatched = watched.map(m => m.imdbID).includes(id)
 	const watchedUserRating = watched.find(m => m.imdbID === id)?.userRating
@@ -48,6 +50,7 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 			poster,
 			runtime: Number(runtime?.split(' ').at(0)),
 			userRating,
+			countRatingDecisions: countRef.current,
 		}
 
 		onCloseMovie()
@@ -77,6 +80,10 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 			setIsLoading(false)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (userRating) countRef.current++
+	}, [userRating])
 
 	useEffect(() => {
 		const callback = (e: { code: string }) => {

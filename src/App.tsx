@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { IWatchedMovie } from './types'
 import {
 	Logo,
@@ -14,16 +14,13 @@ import {
 	ErrorMessage,
 	MovieDetails,
 } from './components'
-import { useMovies } from './hooks'
+import { useLocalStorage, useMovies } from './hooks'
 
 export default function App() {
-	const [watched, setWatched] = useState<IWatchedMovie[] | []>(() => {
-		const storedWatched = localStorage.getItem('watched')
-		if (storedWatched) return JSON.parse(storedWatched)
-	})
 	const [query, setQuery] = useState('')
 	const [selectedId, setSelectedId] = useState<string | null>(null)
 	const { error, isLoading, movies } = useMovies(query, handleCloseMovie)
+	const [watched, setWatched] = useLocalStorage([], 'watched')
 
 	function handleCloseMovie() {
 		setSelectedId(null)
@@ -38,12 +35,10 @@ export default function App() {
 	}
 
 	const handleDeleteWatched = (id: string) => {
-		setWatched(watched => watched.filter(m => m.imdbID !== id))
+		setWatched((watched: IWatchedMovie[] | []) =>
+			watched.filter(m => m.imdbID !== id)
+		)
 	}
-
-	useEffect(() => {
-		localStorage.setItem('watched', JSON.stringify(watched))
-	}, [watched])
 
 	return (
 		<>

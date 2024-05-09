@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
+import { useKey } from '../../hooks'
 
 interface ISearch {
 	setQuery: React.Dispatch<React.SetStateAction<string>>
@@ -6,20 +7,12 @@ interface ISearch {
 }
 const Search: React.FC<ISearch> = ({ setQuery, query }) => {
 	const inputEl = useRef<HTMLInputElement>(null)
+	useKey('Enter', () => {
+		if (document.activeElement === inputEl.current) return
 
-	useEffect(() => {
-		const callback = (e: any) => {
-			if (document.activeElement === inputEl.current) return
-
-			if (e.code === 'Enter') {
-				inputEl.current?.focus()
-				setQuery('')
-			}
-		}
-
-		document.addEventListener('keydown', callback)
-		return () => document.addEventListener('keydown', callback)
-	}, [setQuery])
+		inputEl.current?.focus()
+		setQuery('')
+	})
 
 	return (
 		<input

@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { IWatchedMovie } from '../../types'
 import { StarRating } from '../star-rating'
 import { ErrorMessage, Loader } from '../common'
+import { useKey } from '../../hooks'
 
 interface MovieDetailsProps {
 	id: string
@@ -22,6 +23,7 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 	const [error, setError] = useState('')
 	const [movie, setMovie] = useState<IWatchedMovie>({})
 	const [userRating, setUserRating] = useState(0)
+	useKey('Escape', onCloseMovie)
 
 	const countRef = useRef(0)
 
@@ -84,18 +86,6 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 	useEffect(() => {
 		if (userRating) countRef.current++
 	}, [userRating])
-
-	useEffect(() => {
-		const callback = (e: { code: string }) => {
-			if (e.code === 'Escape') onCloseMovie()
-		}
-
-		document.addEventListener('keydown', callback)
-
-		return () => {
-			document.removeEventListener('keydown', callback)
-		}
-	}, [onCloseMovie])
 
 	useEffect(() => {
 		getMovieDetails(id)

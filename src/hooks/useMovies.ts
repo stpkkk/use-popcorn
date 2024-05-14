@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-
-const KEY = 'f84fc31d'
-
 export function useMovies(query: string, callback: () => void) {
 	const [movies, setMovies] = useState([])
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
+	const API_KEY = process.env.REACT_APP_API_KEY
+	console.log(API_KEY)
 
 	useEffect(
 		function () {
@@ -19,7 +18,7 @@ export function useMovies(query: string, callback: () => void) {
 					setError('')
 
 					const res = await fetch(
-						`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+						`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`,
 						{ signal: controller.signal }
 					)
 

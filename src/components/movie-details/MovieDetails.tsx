@@ -11,7 +11,7 @@ interface MovieDetailsProps {
 	onAddWatched: (movie: IWatchedMovie) => void
 }
 
-const KEY = 'f52c219f'
+const API_KEY = process.env.REACT_APP_API_KEY
 
 const MovieDetails: FC<MovieDetailsProps> = ({
 	id,
@@ -65,7 +65,9 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 			setIsLoading(true)
 			setError('')
 
-			const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${id}`)
+			const res = await fetch(
+				`http://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`
+			)
 
 			if (!res.ok)
 				throw new Error(

@@ -66,7 +66,7 @@ const MovieDetails: FC<MovieDetailsProps> = ({
 			setError('')
 
 			const res = await fetch(
-				`http://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`
+				`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`
 			)
 
 			if (!res.ok)

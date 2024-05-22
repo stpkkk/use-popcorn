@@ -4,7 +4,6 @@ export function useMovies(query: string, callback: () => void) {
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
 	const API_KEY = process.env.REACT_APP_API_KEY
-	console.log(API_KEY)
 
 	useEffect(
 		function () {
@@ -18,7 +17,7 @@ export function useMovies(query: string, callback: () => void) {
 					setError('')
 
 					const res = await fetch(
-						`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`,
+						`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`,
 						{ signal: controller.signal }
 					)
 

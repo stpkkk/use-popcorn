@@ -24,7 +24,7 @@ This application is designed to provide an interactive and user-friendly platfor
 
 -Using the localStorage to save the state of the application.
 
--Using the useRef hook to manipulate DOM in various intances.
+-Using the useRef hook to manipulate DOM in various instances.
 
 -Creating Custom Hooks in React.
 
